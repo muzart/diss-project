@@ -1,9 +1,13 @@
 <?php
+if(!isset($_GET['id']))
+    die("Noto'g'ri murojaat qilindi! ID parametri berilmadi!");
+
+$id = (int) $_GET['id'];
 
 $connection = new PDO('mysql:host=localhost;dbname=php_baza','root','');
-$message = "";
+
 if($_POST) {
-    $add = $connection->prepare("INSERT INTO questions(subject_id,question,a,b,c,d,answer) VALUES(?,?,?,?,?,?,?)")
+    $result = $connection->prepare('UPDATE questions SET subject_id=?, question=?, a=?, b=?, c=?, d=?, answer=? WHERE id=?')
         ->execute([
             $_POST['subject_id'],
             $_POST['question'],
@@ -12,30 +16,31 @@ if($_POST) {
             $_POST['c'],
             $_POST['d'],
             $_POST['answer'],
+            $id
         ]);
-    if($add !== false) {
+    if($result) {
         header('Location: index.php');
     }
+    else
+        $error_message = "So'rovni bajarishda xatolik ro'y berdi...";
 }
-
 $subjects = $connection->query('SELECT * FROM subjects')->fetchAll(PDO::FETCH_ASSOC);
-$questions = $connection->query('SELECT q.*, s.name as subject_name FROM questions q LEFT JOIN subjects s ON q.subject_id=s.id')->fetchAll(PDO::FETCH_ASSOC);
+$question = $connection->query("SELECT * FROM questions WHERE id=$id")->fetch(PDO::FETCH_ASSOC);
+if(!is_array($question)) {
+    die('Bunday savol bazada mavjud emas!');
+}
 ?>
-    <?php include "../blocks/header.php"?>
+
+<?php include "../blocks/header.php" ?>
 
     <!--/. NAV TOP  -->
-    <?php include "../blocks/menu.php"?>
+<?php include "../blocks/menu.php" ?>
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div class="page-inner">
             <div class="container">
                 <div class="row">
-                    <div class="col-12">
-                        <h2 class="text-center">Savollar</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-4">
+                    <div class="col-4 offset-4">
                         <form action="" method="post" class="border-primary p-2">
                             <table class="table table-condensed">
                                 <tr>
@@ -45,7 +50,7 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
                                     <td>
                                         <select name="subject_id" id="subject_id" class="form-control">
                                             <?php foreach ($subjects as $subject): ?>
-                                            <option value="<?=$subject['id']?>>"><?= $subject['name'] ?> </option>
+                                                <option value="<?=$subject['id']?>>" <?= ($question['subject_id'] == $subject['id']) ? "selected" : "" ; ?>><?= $subject['name'] ?> </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </td>
@@ -55,7 +60,7 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
                                         <label for="question">Savol</label>
                                     </td>
                                     <td>
-                                        <textarea name="question" id="question" cols="30" rows="3" class="form-control"></textarea>
+                                        <textarea name="question" id="question" cols="30" rows="3" class="form-control"><?= $question['question'] ?></textarea>
                                     </td>
                                 </tr>
                                 <tr>
@@ -63,7 +68,7 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
                                         <label for="a">A</label>
                                     </td>
                                     <td>
-                                        <input name="a" type="text" id="a" class="form-control">
+                                        <input name="a" type="text" id="a" class="form-control" value="<?=$question['a']?>">
                                     </td>
                                 </tr>
                                 <tr>
@@ -71,7 +76,7 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
                                         <label for="b">B</label>
                                     </td>
                                     <td>
-                                        <input name="b" type="text" id="b" class="form-control">
+                                        <input name="b" type="text" id="b" class="form-control" value="<?=$question['b']?>">
                                     </td>
                                 </tr>
                                 <tr>
@@ -79,7 +84,7 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
                                         <label for="c">C</label>
                                     </td>
                                     <td>
-                                        <input name="c" type="text" id="c" class="form-control">
+                                        <input name="c" type="text" id="c" class="form-control" value="<?=$question['c']?>">
                                     </td>
                                 </tr>
                                 <tr>
@@ -87,7 +92,7 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
                                         <label for="d">D</label>
                                     </td>
                                     <td>
-                                        <input name="d" type="text" id="d" class="form-control">
+                                        <input name="d" type="text" id="d" class="form-control" value="<?=$question['d']?>">
                                     </td>
                                 </tr>
                                 <tr>
@@ -96,10 +101,10 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
                                     </td>
                                     <td>
                                         <select name="answer" id="answer" class="form-control">
-                                            <option value="a">A</option>
-                                            <option value="b">B</option>
-                                            <option value="c">C</option>
-                                            <option value="d">D</option>
+                                            <option value="a" <?=($question['answer'] == 'a') ? "selected" : ""; ?>>A</option>
+                                            <option value="b" <?=($question['answer'] == 'b') ? "selected" : ""; ?>>B</option>
+                                            <option value="c" <?=($question['answer'] == 'c') ? "selected" : ""; ?>>C</option>
+                                            <option value="d" <?=($question['answer'] == 'd') ? "selected" : ""; ?>>D</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -111,44 +116,11 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
                             </table>
                         </form>
                     </div>
-                    <div class="col-8">
-                        <table class="table table-bordered table-condensed">
-                            <tr>
-                                <th>ID</th>
-                                <th>Fan</th>
-                                <th>Savol</th>
-                                <th>A</th>
-                                <th>B</th>
-                                <th>C</th>
-                                <th>D</th>
-                                <th>Javob</th>
-                                <th>Amal</th>
-                            </tr>
-                            <?php $i = 0; foreach ($questions as $question): ?>
-                                <tr>
-                                    <th><?=++$i?></th>
-                                    <td><?=$question['subject_name']?></td>
-                                    <td><?=$question['question']?></td>
-                                    <td><?=$question['a']?></td>
-                                    <td><?=$question['b']?></td>
-                                    <td><?=$question['c']?></td>
-                                    <td><?=$question['d']?></td>
-                                    <td><?=$question['answer']?></td>
-                                    <td>
-                                        <a href="display.php?id=<?=$question['id']?>" class="btn btn-primary"><i class="fa fa-eye"></i></a>
-                                        <a href="edit.php?id=<?=$question['id']?>" class="btn btn-warning"><i class="fa fa-pencil"></i></a>
-                                        <a href="remove.php?id=<?=$question['id']?>" class="btn btn-danger"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </table>
-                    </div>
                 </div>
             </div>
-
         </div>
         <!-- /. PAGE INNER  -->
 
     </div>
     <!-- /. PAGE WRAPPER  -->
-    <?php include "../blocks/footer.php"; ?>
+<?php include "../blocks/footer.php"; ?>

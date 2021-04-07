@@ -11,10 +11,10 @@ if(!is_array($subject)) {
 }
 ?>
 
-<?php include "../blocks/header.php"?>
+<?php include "../blocks/header.php" ?>
 
     <!--/. NAV TOP  -->
-<?php include "../blocks/menu.php"?>
+<?php include "../blocks/menu.php" ?>
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div class="page-inner">

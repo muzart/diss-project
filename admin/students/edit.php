@@ -14,8 +14,8 @@ if($_POST) {
         $image = uniqid() . $img['name'];
         move_uploaded_file($img['tmp_name'], __DIR__ . '/../assets/img/' . $image);
         if($student['image'] !== '') {
-            if(file_exists(__DIR__.'/../assets/img/'.$student['image']))
-                unlink(__DIR__.'/../assets/img/'.$student['image']);
+            if(file_exists(__DIR__ . '/../assets/img/' .$student['image']))
+                unlink(__DIR__ . '/../assets/img/' .$student['image']);
         }
     }
     $result = $connection->prepare('
@@ -44,10 +44,10 @@ if(!is_array($student)) {
 $groups = $connection->query("SELECT * FROM groups")->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
-<?php include "../blocks/header.php"?>
+<?php include "../blocks/header.php" ?>
 
     <!--/. NAV TOP  -->
-<?php include "../blocks/menu.php"?>
+<?php include "../blocks/menu.php" ?>
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div class="page-inner">

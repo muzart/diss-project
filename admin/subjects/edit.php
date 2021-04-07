@@ -7,10 +7,9 @@ $id = (int) $_GET['id'];
 $connection = new PDO('mysql:host=localhost;dbname=php_baza','root','');
 
 if($_POST) {
-    $result = $connection->prepare('UPDATE groups SET name=?, course=? WHERE id=?')
+    $result = $connection->prepare('UPDATE subjects SET name=? WHERE id=?')
         ->execute([
             $_POST['name'],
-            $_POST['course'],
             $id
         ]);
     if($result) {
@@ -20,16 +19,16 @@ if($_POST) {
         $error_message = "So'rovni bajarishda xatolik ro'y berdi...";
 }
 
-$group = $connection->query("SELECT * FROM groups WHERE id=$id")->fetch(PDO::FETCH_ASSOC);
-if(!is_array($group)) {
-    die('Bunday guruh bazada mavjud emas!');
+$subject = $connection->query("SELECT * FROM subjects WHERE id=$id")->fetch(PDO::FETCH_ASSOC);
+if(!is_array($subject)) {
+    die('Bunday fan bazada mavjud emas!');
 }
 ?>
 
-<?php include "../blocks/header.php"?>
+<?php include "../blocks/header.php" ?>
 
     <!--/. NAV TOP  -->
-<?php include "../blocks/menu.php"?>
+<?php include "../blocks/menu.php" ?>
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div class="page-inner">
@@ -40,23 +39,10 @@ if(!is_array($group)) {
                             <table class="table table-condensed">
                                 <tr>
                                     <td>
-                                        <label for="name">Guruh nomi</label>
+                                        <label for="name">Fan nomi</label>
                                     </td>
                                     <td>
-                                        <input name="name" type="text" id="name" class="form-control" value="<?=$group['name']?>">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label for="course">Kurs</label>
-                                    </td>
-                                    <td>
-                                        <select name="course" id="course" class="form-control">
-                                            <option value="1" <?=($group['course'] == 1) ? "selected" : ""; ?>>1-kurs</option>
-                                            <option value="2" <?=($group['course'] == 2) ? "selected" : ""; ?>>2-kurs</option>
-                                            <option value="3" <?=($group['course'] == 3) ? "selected" : ""; ?>>3-kurs</option>
-                                            <option value="4" <?=($group['course'] == 4) ? "selected" : ""; ?>>4-kurs</option>
-                                        </select>
+                                        <input name="name" type="text" id="name" class="form-control" value="<?=$subject['name']?>">
                                     </td>
                                 </tr>
                                 <tr>

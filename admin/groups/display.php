@@ -13,10 +13,10 @@ $students = $connection->query("SELECT * FROM students WHERE group_id=$id")->fet
 
 ?>
 
-<?php include "../blocks/header.php"?>
+<?php include "../blocks/header.php" ?>
 
     <!--/. NAV TOP  -->
-<?php include "../blocks/menu.php"?>
+<?php include "../blocks/menu.php" ?>
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div class="page-inner">
