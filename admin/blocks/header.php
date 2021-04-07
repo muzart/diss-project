@@ -27,7 +27,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/admin/dashboardhboard"><i class="fa fa-comments"></i> <strong>APP </strong></a>
+            <a class="navbar-brand" href="/admin/dashboard"><i class="fa fa-comments"></i> <strong>APP </strong></a>
         </div>
 
         <ul class="nav navbar-top-links navbar-right">
