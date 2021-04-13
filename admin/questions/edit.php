@@ -63,7 +63,7 @@ if(!is_array($question)) {
                                     <td>
                                         <select name="subject_id" id="subject_id" class="form-control">
                                             <?php foreach ($subjects as $subject): ?>
-                                                <option value="<?=$subject['id']?>>" <?= ($question['subject_id'] == $subject['id']) ? "selected" : "" ; ?>><?= $subject['name'] ?> </option>
+                                                <option value="<?=$subject['id']?>" <?= ($question['subject_id'] == $subject['id']) ? "selected" : "" ; ?>><?= $subject['name'] ?> </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </td>
