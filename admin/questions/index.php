@@ -28,6 +28,15 @@ $questions = $connection->query('SELECT q.*, s.name as subject_name FROM questio
 
     <!--/. NAV TOP  -->
     <?php include "../blocks/menu.php" ?>
+    <script src="../assets/js/tinymce/js/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: '#question',
+            height: 150,
+            plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists textcolor wordcount imagetools contextmenu colorpicker textpattern help',
+            toolbar1: 'formatselect | bold italic strikethrough forecolor backcolor | link | alignleft aligncenter alignright alignjustify  | numlist bullist outdent indent  | removeformat',
+        });
+    </script>
     <!-- /. NAV SIDE  -->
     <div id="page-wrapper">
         <div class="page-inner">
