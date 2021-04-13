@@ -24,12 +24,26 @@
 <html lang="uz">
     <head>
         <title>Fanni tanlash</title>
-        <link rel="stylesheet" href="admin/assets/css/bootstrap.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
     </head>
     <body>
         <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#">Test oluvchi tizim</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav pull-right">
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Chiqish</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
             <div class="row">
-                <div class="col-md-6 col-md-offset-3">
+                <div class="col-6 offset-3">
                     <h1 class="text-center">Testni boshlash uchun fanni tanlang</h1>
                     <form action="" method="post">
                         <div class="form-group">
