@@ -2,6 +2,11 @@
     session_start();
     $connection = new PDO('mysql:host=localhost;dbname=php_baza','root','');
 
+    if(!isset($_SESSION['st_login']) || $_SESSION['st_login'] !== 1) {
+        header('Location: login.php');
+        exit(0);
+    }
+
     if(isset($_SESSION['subject'])) {
         header('Location: test.php');
         exit(0);
