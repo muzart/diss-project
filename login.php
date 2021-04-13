@@ -12,6 +12,7 @@ if($_POST) {
     if($result !== false) {
         if($result['passwd'] == $passwd) {
             $_SESSION['st_login'] = 1;
+            $_SESSION['student_id'] = $result['id'];
         } else {
             $error = 'Login yoki parol xato!';
         }
